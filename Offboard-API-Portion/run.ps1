@@ -214,58 +214,59 @@ if (($contentFindRequester.requesters.active -eq $true) -and ($contentFindReques
 }
 
 # EmailMeForm Ticket Post for Data Management
+## Requested to be commented out due to Sabrina checking AD flags now
 
-$urlPostTicketEmailMeForm = "https://humanscale.freshservice.com/api/v2/tickets"
+# $urlPostTicketEmailMeForm = "https://humanscale.freshservice.com/api/v2/tickets"
 
-$bodyPostTicketEmailMeForm = @{
-    description    = "
-    <b>This ticket is to remind you to remove the offboarded user's access & license for EmailMeForm.</b>
-    <hr>
-    <p>The Original Ticket # - $($offboardStatus.RowKey)</p>
-    <br>
-    <p>User - $($offboardStatus.FullName)</p>
-    <br>
-    <p>Username - $($offboardStatus.UserPrincipalName)</p>
-    <br>
-    <p>Department - $($offboardStatus.Department)</p>
-    "
-    subject        = "EmailMeForm Access | Ticket# $($offboardStatus.RowKey)-$($offboardStatus.TicketSubject)"
-    email          = "sliriano@humanscale.com"
-    priority       = 1
-    status         = 3
-    group_id       = 20000342969
-    responder_id   = 20000792810
-    category       = "Access Rights"
-    sub_category   = "EmailMeForm"
-    item_category  = "Access and License"
-    source         = 2
-    cc_emails      = @("aparham@humanscale.com", "tfreivald@humanscale.com") # Data management members responsible for EmailMeForm
-    workspace_id   = 2
-}
+# $bodyPostTicketEmailMeForm = @{
+#     description    = "
+#     <b>This ticket is to remind you to remove the offboarded user's access & license for EmailMeForm.</b>
+#     <hr>
+#     <p>The Original Ticket # - $($offboardStatus.RowKey)</p>
+#     <br>
+#     <p>User - $($offboardStatus.FullName)</p>
+#     <br>
+#     <p>Username - $($offboardStatus.UserPrincipalName)</p>
+#     <br>
+#     <p>Department - $($offboardStatus.Department)</p>
+#     "
+#     subject        = "EmailMeForm Access | Ticket# $($offboardStatus.RowKey)-$($offboardStatus.TicketSubject)"
+#     email          = "sliriano@humanscale.com"
+#     priority       = 1
+#     status         = 3
+#     group_id       = 20000342969
+#     responder_id   = 20000792810
+#     category       = "Access Rights"
+#     sub_category   = "EmailMeForm"
+#     item_category  = "Access and License"
+#     source         = 2
+#     cc_emails      = @("aparham@humanscale.com", "tfreivald@humanscale.com") # Data management members responsible for EmailMeForm
+#     workspace_id   = 2
+# }
 
-$jsonBodyPostTicketEmailMeForm = $bodyPostTicketEmailMeForm | ConvertTo-Json -Depth 10 -Compress
+# $jsonBodyPostTicketEmailMeForm = $bodyPostTicketEmailMeForm | ConvertTo-Json -Depth 10 -Compress
 
-$paramPostTicketEmailMeForm = @{
-    Uri     = $urlPostTicketEmailMeForm
-    Method  = "POST"
-    Headers = @{
-        "Content-Type" = "application/json"
-        "Authorization" = "Basic $encodedFreshServiceApiKey"
-    }
-    Body    = $jsonBodyPostTicketEmailMeForm
-}
+# $paramPostTicketEmailMeForm = @{
+#     Uri     = $urlPostTicketEmailMeForm
+#     Method  = "POST"
+#     Headers = @{
+#         "Content-Type" = "application/json"
+#         "Authorization" = "Basic $encodedFreshServiceApiKey"
+#     }
+#     Body    = $jsonBodyPostTicketEmailMeForm
+# }
 
-try {
-    if (($offboardStatus.Department -like "*Customer Care*") -or ($offboardStatus.Department -like "*Finance*") -or ($offboardStatus.Department -like "*Accounting*")) {
-        Write-Host "EmailMeForm ticket created, $($offboardStatus.FullName) is in $($offboardStatus.Department)"
-        Invoke-WebRequest @paramPostTicketEmailMeForm | Out-Null
-    }
-}
-catch {
-    $errorMessage = $_.Exception.Message
-    $lineNumber = $_.InvocationInfo.ScriptLineNumber
-    Write-Error -Message "HTTP error while trying to post EmailMeForm ticket. Error: $errorMessage. Line: $lineNumber"
-}
+# try {
+#     if (($offboardStatus.Department -like "*Customer Care*") -or ($offboardStatus.Department -like "*Finance*") -or ($offboardStatus.Department -like "*Accounting*")) {
+#         Write-Host "EmailMeForm ticket created, $($offboardStatus.FullName) is in $($offboardStatus.Department)"
+#         Invoke-WebRequest @paramPostTicketEmailMeForm | Out-Null
+#     }
+# }
+# catch {
+#     $errorMessage = $_.Exception.Message
+#     $lineNumber = $_.InvocationInfo.ScriptLineNumber
+#     Write-Error -Message "HTTP error while trying to post EmailMeForm ticket. Error: $errorMessage. Line: $lineNumber"
+# }
 
 # Quote Tool Ticket Post for Data Management
 
